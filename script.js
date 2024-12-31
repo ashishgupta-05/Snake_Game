@@ -21,12 +21,13 @@ function setup() {
 
     createCanvas(500, 500);
 
-    frameRate(2);
+    frameRate(10);
 
     textAlign(CENTER, CENTER);
     textSize(2);
 
-     highScore = getItem('high score')
+     highScore = getItem('High Score');
+     console.log(highScore);
 }
 
 function draw() {
@@ -103,6 +104,7 @@ function updateSegments() {
     switch (direction) {
         case 'right':
             head.x = head.x + 1;
+          //  console.log(head.x);
             break;
 
         case 'up':
@@ -167,10 +169,6 @@ function checkForFruit(){
         updateFruitCoordinates();
     }
 }
-
-
-
-
 
 function updateFruitCoordinates() {
     let x = floor(random(gridWidth));
