@@ -1,5 +1,5 @@
-let gridWidth = 30;
-let gridHeight = 30;
+let gridWidth = 200;
+let gridHeight = 200;
 
 let gameStarted = false;
 
@@ -19,20 +19,20 @@ let fruit;
 
 function setup() {
 
-    createCanvas(500, 500);
+    createCanvas(600, 400);
 
     frameRate(10);
 
     textAlign(CENTER, CENTER);
     textSize(2);
 
-     highScore = getItem('High Score');
-     console.log(highScore);
+    highScore = getItem('High Score');
+    console.log(highScore);
 }
 
 function draw() {
     background(0);
-    scale(width / gridWidth, height / gridHeight);
+   // scale(width / gridWidth, height / gridHeight);
 
     if (gameStarted == false) {
         showStartScreen();
@@ -44,15 +44,23 @@ function draw() {
         updateSegments();
         checkForCollision();
         checkForFruit();
+        gameMode();
     }
 }
 
+function gameMode(){
+    noStroke();
+    fill(255, 0, 0);
+    rect(620, 200, 50, 50, 2);
+}
 function showStartScreen() {
     noStroke();
     fill(32);
-    rect(2, gridHeight / 2 - 5, gridWidth - 4, 10, 2);
+    rect(200, 150, 200, 100, 10);
     fill(255);
-    text('Click to play.\n Use arrow key to move', gridWidth / 2, gridHeight / 2);
+    textSize(12);
+    textAlign(LEFT, CENTER);
+    text('Click to play.\n Use arrow key to move', 250, 200);
     noLoop();
 }
 
@@ -104,7 +112,7 @@ function updateSegments() {
     switch (direction) {
         case 'right':
             head.x = head.x + 1;
-          //  console.log(head.x);
+            //  console.log(head.x);
             break;
 
         case 'up':
@@ -128,12 +136,10 @@ function checkForCollision() {
 }
 
 function gameOver() {
+    highScore = max(score, highScore);
     noStroke();
     fill(32);
     rect(2, gridHeight / 2 - 5, gridWidth - 4, 12, 2);
-
-    highScore = max(score, highScore);
-
     storeItem('High Score', highScore);
     text(`Game Over! Your Score : ${score} \n Your High Score : ${highScore} \n Click to play again`, gridWidth / 2, gridHeight / 2);
     gameStarted == false;
@@ -141,13 +147,13 @@ function gameOver() {
 }
 
 
-function selfColliding(){
+function selfColliding() {
     let head = segments[0];
 
     let segmentAfterHead = segments.slice(1);
 
-    for(let segment of segmentAfterHead){
-        if(segment.equals(head) == true){
+    for (let segment of segmentAfterHead) {
+        if (segment.equals(head) == true) {
             return true;
         }
     }
@@ -155,10 +161,10 @@ function selfColliding(){
 }
 
 
-function checkForFruit(){
+function checkForFruit() {
     let head = segments[0];
 
-    if(head.equals(fruit) == true){
+    if (head.equals(fruit) == true) {
         score = score + 1;
 
         let tail = segments[segments.length - 1];
@@ -178,29 +184,29 @@ function updateFruitCoordinates() {
 }
 
 
-function keyPressed(){
+function keyPressed() {
 
-    switch(keyCode){
+    switch (keyCode) {
         case LEFT_ARROW:
-            if(direction !== 'right'){
+            if (direction !== 'right') {
                 direction = 'left';
             }
             break;
-        
+
         case RIGHT_ARROW:
-            if(direction !== 'left'){
+            if (direction !== 'left') {
                 direction = 'right';
             }
             break;
 
         case UP_ARROW:
-            if(direction !== 'down'){
+            if (direction !== 'down') {
                 direction = 'up'
             }
             break;
 
         case DOWN_ARROW:
-            if(direction !== 'up'){
+            if (direction !== 'up') {
                 direction = 'down'
             }
             break;
